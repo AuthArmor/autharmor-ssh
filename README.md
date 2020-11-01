@@ -21,6 +21,6 @@ sudo systemctl reload sshd
 
 Use the [Auth Armor dashboard](https://dashboard.autharmor.com) to generate API keys and register users. When inviting users you should use their ssh username in the `Nickname` field.
 
-![Invite user](https://i.imgur.com/YvvayRA.png)
+![Invite user](https://i.imgur.com/lbugYI5.png)
 
 Once your user(s) have been setup, place your Auth Armor API `CLIENT_ID` and `CLIENT_SECRET` in `/etc/autharmor-ssh`. The plugin will not enforce 2FA unless these keys have been set.
