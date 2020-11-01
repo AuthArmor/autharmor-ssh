@@ -1,0 +1,52 @@
+#!/bin/sh
+VERSION="1.0.2010310"
+set -e
+
+CURL_PATH="$(which curl)"
+AWK_PATH="$(which awk)"
+JQ_PATH="$(which jq)"
+UUIDGEN_PATH="$(which uuidgen)"
+HOSTNAME="$(hostname)"
+USER_IP="$(echo ${SSH_CLIENT} | ${AWK_PATH} '{print $1}')"
+
+if [ "${1}" == "-v" ] || [ "${1}" == "-V" ] || [ "${1}" == "--version" ]; then
+  echo "autharmor-ssh version ${VERSION}"
+  exit 0
+fi
+
+source /etc/autharmor-ssh.conf
+
+function refresh_token() {
+  ACCESS_TOKEN="$(${CURL_PATH} --silent -X POST -d "grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}" https://${TOKEN_DOMAIN}/connect/token | ${JQ_PATH} --raw-output '.access_token')"
+}
+
+function auth() {
+  AUTH_RESULT="$(${CURL_PATH} --silent -X POST -H "Authorization: Bearer ${ACCESS_TOKEN}" -H 'Content-type: application/json' -d "{'nickname': '${USER}', 'action_name': '${APP_ACTION_NAME}', 'short_msg': '${APP_SHORT_MSG}', 'nonce': '$(${UUIDGEN_PATH})'}" "https://${API_DOMAIN}/${API_VERSION}/auth/request" | ${JQ_PATH} --raw-output '.authorized')"
+}
+
+function run_shell() {
+  if [[ "${SSH_ORIGINAL_COMMAND}" != "" ]]; then
+      exec ${SHELL} -c "${SSH_ORIGINAL_COMMAND}"
+  elif [ ${SHELL} ]; then
+      exec -l ${SHELL}
+  fi
+  exit $?
+}
+
+if [ "${CLIENT_ID}" == "" ] || [ "${CLIENT_SECRET}" == "" ]; then
+  run_shell
+  exit 0
+fi
+
+echo "${SSH_INITIAL_MSG}"
+refresh_token
+auth
+
+if [ "${AUTH_RESULT}" == "true" ]; then
+  echo "${SSH_SUCCESS_MSG}"
+  run_shell
+else
+  echo "${SSH_FAIL_MSG}"
+  exit 1
+fi
+
