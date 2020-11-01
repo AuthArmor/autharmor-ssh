@@ -10,7 +10,7 @@ You should have an alternative means of accessing your server in the event that 
 Requirements: `curl`, `awk`, `jq`, `uuidgen`
 
 ```shell
-git clone https://github.com/devhen/autharmor-ssh.git
+git clone https://github.com/AuthArmor/autharmor-ssh.git
 cd autharmor-ssh
 sudo cp autharmor-ssh /usr/bin/
 sudo chmod +x /usr/bin/autharmor-ssh
