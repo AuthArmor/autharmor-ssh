@@ -9,8 +9,10 @@ Requirements: `curl`, `awk`, `jq`, `uuidgen`
 git clone https://github.com/devhen/autharmor-ssh.git
 cd autharmor-ssh
 sudo cp autharmor-ssh /usr/bin/
+sudo chmod +x /usr/bin/autharmor-ssh
 sudo cp autharmor-ssh.conf /etc/
 echo "ForceCommand /usr/bin/autharmor-ssh" | sudo tee -a /etc/ssh/sshd_config
+sudo systemctl reload sshd
 ```
 
 Place your AuthArmor API `CLIENT_ID` and `CLIENT_SECRET` in `/etc/autharmor-ssh`.
