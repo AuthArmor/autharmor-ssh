@@ -23,4 +23,4 @@ Use the [Auth Armor dashboard](https://dashboard.autharmor.com) to generate API 
 
 ![Invite user](https://i.imgur.com/lbugYI5.png)
 
-Once your user(s) have been setup, place your Auth Armor API `CLIENT_ID` and `CLIENT_SECRET` in `/etc/autharmor-ssh`. The plugin will not enforce 2FA unless these keys have been set.
+Once your user(s) have been setup, place your project's API keys (`CLIENT_ID` and `CLIENT_SECRET`) in `/etc/autharmor-ssh`. The plugin will not enforce 2FA unless these keys have been set. **Make sure your users are invited, enrolled, and working before saving your API keys to `autharmor-ssh.conf`**.
