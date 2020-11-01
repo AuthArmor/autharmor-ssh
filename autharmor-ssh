@@ -35,7 +35,6 @@ function run_shell() {
 
 if [ "${CLIENT_ID}" == "" ] || [ "${CLIENT_SECRET}" == "" ]; then
   run_shell
-  exit 0
 fi
 
 echo "${SSH_INITIAL_MSG}"
