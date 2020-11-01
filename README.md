@@ -19,6 +19,6 @@ echo "ForceCommand /usr/bin/autharmor-ssh" | sudo tee -a /etc/ssh/sshd_config
 sudo systemctl reload sshd
 ```
 
-Place your AuthArmor API `CLIENT_ID` and `CLIENT_SECRET` in `/etc/autharmor-ssh`.
-
 Use the [AuthArmor Dashboard](https://dashboard.autharmor.com) to generate API keys add register users.
+
+Once your user(s) have been setup, place your AuthArmor API `CLIENT_ID` and `CLIENT_SECRET` in `/etc/autharmor-ssh`. The plugin will not enforce 2FA unless these keys have been set.
