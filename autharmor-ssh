@@ -37,15 +37,22 @@ if [ "${CLIENT_ID}" == "" ] || [ "${CLIENT_SECRET}" == "" ]; then
   run_shell
 fi
 
-echo "${SSH_INITIAL_MSG}"
+if [ "${SSH_INITIAL_MSG}" != "" ]; then
+  echo "${SSH_INITIAL_MSG}"
+fi
+
 refresh_token
 auth
 
 if [ "${AUTH_RESULT}" == "true" ]; then
-  echo "${SSH_SUCCESS_MSG}"
+  if [ "${SSH_SUCCESS_MSG}" != "" ]; then
+    echo "${SSH_SUCCESS_MSG}"
+  fi
   run_shell
 else
-  echo "${SSH_FAIL_MSG}"
+  if [ "${SSH_FAIL_MSG}" != "" ]; then
+    echo "${SSH_FAIL_MSG}"
+  fi
   exit 1
 fi
 
